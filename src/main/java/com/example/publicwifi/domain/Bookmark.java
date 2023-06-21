@@ -1,4 +1,4 @@
-package com.example.publicwifi;
+package com.example.publicwifi.domain;
 
 import java.time.LocalDateTime;
 

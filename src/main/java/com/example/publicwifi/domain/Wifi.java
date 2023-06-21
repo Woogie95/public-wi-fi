@@ -1,4 +1,4 @@
-package com.example.publicwifi;
+package com.example.publicwifi.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
