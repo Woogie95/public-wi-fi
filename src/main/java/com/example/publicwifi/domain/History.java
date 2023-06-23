@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class History {
 
     private Long id;
-    private Double latitude; // y위도
-    private Double longitude; // x경도
+    private Double latitude; // 위도
+    private Double longitude; // 경도
     private LocalDateTime registerDate;
 
 }
