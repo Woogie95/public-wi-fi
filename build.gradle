@@ -24,11 +24,9 @@ tasks.withType(JavaCompile).configureEach {
 dependencies {
     compileOnly('jakarta.servlet:jakarta.servlet-api:5.0.0')
     compileOnly 'org.projectlombok:lombok:1.18.24'
-    compileOnly 'javax.servlet.jsp:jsp-api:2.2'
-    implementation 'com.squareup.okhttp3:okhttp-bom:4.9.3'
+    implementation 'javax.servlet.jsp:jsp-api:2.2'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation 'mysql:mysql-connector-java:8.0.28'
-
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
