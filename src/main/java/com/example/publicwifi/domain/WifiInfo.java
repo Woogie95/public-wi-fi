@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WifiInfo {
 
+    private Double distance;
     private String mgrNo;
     private String wrdofc;
     private String mainNm;
@@ -23,6 +24,10 @@ public class WifiInfo {
     private String lat; // 위도
     private String lnt; // 경도
     private String workDttm;
+
+    public Double getDistance() {
+        return distance;
+    }
 
     public String getMgrNo() {
         return mgrNo;
@@ -86,6 +91,10 @@ public class WifiInfo {
 
     public String getWorkDttm() {
         return workDttm;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
     public void setMgrNo(String mgrNo) {

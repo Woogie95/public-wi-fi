@@ -1,31 +1,31 @@
-package com.example.publicwifi.dao;
+package com.example.publicwifi.repository;
 
 import com.example.publicwifi.domain.WifiInfo;
+import com.example.publicwifi.util.DBInfo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class WifiInfoDAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/project";
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "tjddnr12";
+public class WifiInfoRepository {
 
     public void saveWifiInfo(WifiInfo wifiInfo) {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(DBInfo.MY_SQL);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
+
+        Connection connection;
+        PreparedStatement preparedStatement;
 
         try {
-            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            String query = "INSERT INTO wifi_info VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            connection = DriverManager.getConnection(DBInfo.DB_URL, DBInfo.DB_USERNAME, DBInfo.DB_PASSWORD);
+            String query = "INSERT INTO wifi_info (magNo, wrdofc, mainm,address1, address2, floor, ty," +
+                    "mby, svcse, cmcwr, year, door, remars3, lat, lnt, work_dttm) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
             preparedStatement = connection.prepareStatement(query);
-
             preparedStatement.setString(1, wifiInfo.getMgrNo());
             preparedStatement.setString(2, wifiInfo.getWrdofc());
             preparedStatement.setString(3, wifiInfo.getMainNm());
@@ -42,25 +42,16 @@ public class WifiInfoDAO {
             preparedStatement.setString(14, wifiInfo.getLat());
             preparedStatement.setString(15, wifiInfo.getLnt());
             preparedStatement.setString(16, wifiInfo.getWorkDttm());
-            preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }
+
+
+
+
+
+
+
+

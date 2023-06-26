@@ -48,12 +48,8 @@
         <th>Y좌표</th>
         <th>작업일자</th>
     </tr>
-    <td>asdasd</td>
-    <td>asdasd</td>
-    <td>asdasd</td>
-    <td>asdasd</td>
-    <td>asdasd</td>
     </thead>
+
     <!-- 테이블 데이터를 동적으로 추가하는 로직을 구현할 수 있습니다 -->
 </table>
 </body>
