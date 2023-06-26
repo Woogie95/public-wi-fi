@@ -54,12 +54,18 @@ public class WifiInfoService {
     // 공공 WIFI 데이터 가져오기 (1000개씩)
     public void getPublicWifi(long totalWifiCount) {
         try {
+            // db 연동
+            WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
+            wifiInfoRepository.JdbcConnector();
+            wifiInfoRepository.connect();
+
             BufferedReader br;
             StringBuilder sb;
             String line;
 
             long startIdx = 1;
             long endIdx = 1_000;
+
             for (int i = 0; i < totalWifiCount / 1000 + FIXATION_NUMBER; i++) {
                 String urlBuilder = OPEN_API_URL +
                         "/" + URLEncoder.encode(KEY, StandardCharsets.UTF_8) +
@@ -85,6 +91,7 @@ public class WifiInfoService {
                 // JSON 파싱
                 JSONArray jsonArray = changeToJson(sb.toString());
                 JSONObject temp;
+
                 for (int j = 0; j < jsonArray.length(); j++) {
                     WifiInfo wifiInfo = new WifiInfo();
                     temp = (JSONObject) jsonArray.get(j);
@@ -104,7 +111,6 @@ public class WifiInfoService {
                     wifiInfo.setLat(String.valueOf(temp.get("LAT")));
                     wifiInfo.setLnt(String.valueOf(temp.get("LNT")));
                     wifiInfo.setWorkDttm(String.valueOf(temp.get("WORK_DTTM")));
-                    WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
                     wifiInfoRepository.saveWifiInfo(wifiInfo);
                 }
                 br.close();
@@ -112,12 +118,12 @@ public class WifiInfoService {
                 startIdx += 1_000;
                 endIdx += 1_000;
             }
+            wifiInfoRepository.disconnect();
         } catch (Exception e) {
             System.out.println(e.getClass());
             System.out.println(e.getMessage());
         }
     }
-
 
     // 1개 부터 -> 1000개 뽑았으면 파싱해주는 api
     public JSONArray changeToJson(String defaultApi) {

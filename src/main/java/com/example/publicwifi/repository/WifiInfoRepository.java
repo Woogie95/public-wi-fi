@@ -1,31 +1,48 @@
 package com.example.publicwifi.repository;
 
 import com.example.publicwifi.domain.WifiInfo;
-import com.example.publicwifi.util.DBInfo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import static com.example.publicwifi.util.DBInfo.*;
+
 public class WifiInfoRepository {
+    private Connection connection;
+
+    public void JdbcConnector() {
+        try {
+            Class.forName(MY_SQL);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void connect() {
+        try {
+            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+            System.out.println("데이터베이스에 연결되었습니다.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void disconnect() {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void saveWifiInfo(WifiInfo wifiInfo) {
+        String query = "INSERT INTO wifi_info VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            Class.forName(DBInfo.MY_SQL);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        Connection connection;
-        PreparedStatement preparedStatement;
-
-        try {
-            connection = DriverManager.getConnection(DBInfo.DB_URL, DBInfo.DB_USERNAME, DBInfo.DB_PASSWORD);
-            String query = "INSERT INTO wifi_info (magNo, wrdofc, mainm,address1, address2, floor, ty," +
-                    "mby, svcse, cmcwr, year, door, remars3, lat, lnt, work_dttm) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-            preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, wifiInfo.getMgrNo());
             preparedStatement.setString(2, wifiInfo.getWrdofc());
             preparedStatement.setString(3, wifiInfo.getMainNm());
