@@ -1,22 +1,24 @@
-//package com.example.publicwifi.service;
-//
-//import com.example.publicwifi.domain.History;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//
-//import java.io.IOException;
-//import java.sql.SQLException;
-//import java.time.LocalDateTime;
-//
-//public class HistoryService {
-//    public void insertUser(HttpServletRequest request, HttpServletResponse response)
-//            throws SQLException, IOException {
-//        Long id = Long.valueOf(request.getParameter("id"));
-//        Double lat = Double.valueOf(request.getParameter("lat"));
-//        Double lnt = Double.valueOf(request.getParameter("lnt"));
-//        LocalDateTime registerDate = LocalDateTime.parse(request.getParameter("registerDate"));
-//        History history = new History(id, lat, lnt, registerDate);
-//        userDAO.insertUser(newUser);
-//        response.sendRedirect("list");
-//    }
-//}
+package com.example.publicwifi.service;
+
+import com.example.publicwifi.domain.History;
+import com.example.publicwifi.repository.HistoryRepository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class HistoryService {
+
+    public void save(String lat, String lnt) {
+        History history = new History();
+        history.setLat(Double.valueOf(lat));
+        history.setLnt(Double.valueOf(lnt));
+        history.setRegisterDate(LocalDateTime.now());
+        HistoryRepository historyRepository = new HistoryRepository();
+        historyRepository.saveHistory(history);
+    }
+
+    public List<History> getAllHistories() {
+        HistoryRepository historyRepository = new HistoryRepository();
+        return historyRepository.getAllHistories();
+    }
+}

@@ -4,14 +4,32 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-    <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
-        <welcome-file>bookmark_group.jsp</welcome-file>
-        <welcome-file>bookmark_group_add.jsp</welcome-file>
-        <welcome-file>detail.jsp</welcome-file>
-        <welcome-file>history.jsp</welcome-file>
-        <welcome-file>load_wifi.jsp</welcome-file>
-    </welcome-file-list>
+    <servlet>
+        <servlet-name>home</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.HomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>home</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>history</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.HistoryController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>history</servlet-name>
+        <url-pattern>/history</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>load_wifi</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.WifiInfoController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>load_wifi</servlet-name>
+        <url-pattern>/load_wifi</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 

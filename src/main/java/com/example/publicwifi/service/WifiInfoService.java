@@ -2,6 +2,7 @@ package com.example.publicwifi.service;
 
 import com.example.publicwifi.domain.WifiInfo;
 import com.example.publicwifi.repository.WifiInfoRepository;
+import com.example.publicwifi.util.DBManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -56,8 +57,8 @@ public class WifiInfoService {
         try {
             // db 연동
             WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
-            wifiInfoRepository.JdbcConnector();
-            wifiInfoRepository.connect();
+            DBManager.JdbcConnector();
+            DBManager.connect();
 
             BufferedReader br;
             StringBuilder sb;
@@ -118,7 +119,7 @@ public class WifiInfoService {
                 startIdx += 1_000;
                 endIdx += 1_000;
             }
-            wifiInfoRepository.disconnect();
+            DBManager.disconnect();
         } catch (Exception e) {
             System.out.println(e.getClass());
             System.out.println(e.getMessage());
