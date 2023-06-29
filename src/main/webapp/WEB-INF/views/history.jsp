@@ -1,5 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--성준추가--%>
+
+
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%--<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>--%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,32 +36,29 @@
     </tr>
     </thead>
     <tbody>
-    <c:choose>
-        <c:when test="${empty HistoryList}">
-            <tr>
-                <td colspan="5">저장한 위치 정보가 없습니다.</td>
-            </tr>
-        </c:when>
-        <c:otherwise>
-            <c:forEach var="history" items="${HistoryList}">
-                <tr>
-                    <td>${history.id}</td>
-                    <td>${history.lat}</td>
-                    <td>${history.lnt}</td>
-                    <td>${history.register_date}</td>
-                    <td>
-                        <form action="delete_history" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
-                            <input type="hidden" name="historyId" value="${history.id}">
-                            <button type="submit">삭제</button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
+
+    <!-- 저장한 위치 정보가 없을 때 -->
+    <tr id="history_info_none">
+        <td colspan="5" style="text-align: center">저장한 위치 정보가 없습니다.</td>
+    </tr>
+    <c:forEach var="history" items="${HistoryList}">
+        <tr id="history_info">
+            <td>${history.id}</td>
+            <td>${history.lat}</td>
+            <td>${history.lnt}</td>
+            <td>${history.register_date}</td>
+            <td>
+                <form action="delete_history" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+                    <input type="hidden" name="historyId" value="${history.id}">
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 </body>
+
 <style>
     #history_tag {
         margin-top: 10px;
@@ -83,7 +89,19 @@
     }
 </style>
 <script>
+    // JavaScript로 테이블 표시 및 숨김 제어
+    const historyInfoNone = document.getElementById("history_info_none");
+    const historyInfo = document.getElementById("history_info");
 
+    if (historyInfoNone) {
+        // 저장한 위치 정보가 없는 경우
+        document.getElementById("history_info").style.display = "none";
+    } else {
+        // 저장한 위치 정보가 있는 경우
+        for (var i = 0; i < historyInfo.length; i++) {
+            historyInfo[i].style.display = "1";
+        }
+    }
 </script>
 
 </html>

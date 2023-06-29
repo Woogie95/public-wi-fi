@@ -47,7 +47,7 @@ public class HistoryRepository {
     public List<History> getAllHistories() {
         List<History> historyList = new ArrayList<>();
         String query = "SELECT * FROM history ORDER BY id DESC";
-
+        DBManager.JdbcConnector();
         Connection conn = getConnection();
         DBManager.connect();
         PreparedStatement preparedStatement = null;
