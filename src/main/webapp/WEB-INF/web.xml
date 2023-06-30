@@ -4,17 +4,6 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-
-<!--    페이지 오류나서 추가해 줬음-->
-<!--    org.apache.jasper.JasperException: TagLibraryValidator 클래스 [org.apache.taglibs.standard.tlv.JstlCoreTLV]을(를) 로드하거나 인스턴스를 생성하지 못했습니다.-->
-    <jsp-config>
-        <taglib>
-            <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
-            <taglib-location>/WEB-INF/lib/jstl-1.2.jar</taglib-location>
-        </taglib>
-    </jsp-config>
-
-
     <servlet>
         <servlet-name>home</servlet-name>
         <servlet-class>com.example.publicwifi.controller.HomeController</servlet-class>

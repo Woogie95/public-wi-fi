@@ -19,8 +19,12 @@ public class HomeController extends HttpServlet {
 
     // 내 위치 가져오기 버튼 클릭 시 위도, 경도를 포함하여 화면에 보여짐
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setAttribute("latitude", request.getParameter("lat"));
-        request.setAttribute("longitude", request.getParameter("lnt"));
+        String lat = request.getParameter("lat");
+        String lnt = request.getParameter("lnt");
+        request.setAttribute("latitude", lat);
+        request.setAttribute("longitude", lnt);
+
+        // 여기서 경도, 위도 로
 
         request.getRequestDispatcher("/WEB-INF/views/home.jsp")
                 .forward(request, response);

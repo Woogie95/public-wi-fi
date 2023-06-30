@@ -21,4 +21,17 @@ public class HistoryService {
         HistoryRepository historyRepository = new HistoryRepository();
         return historyRepository.getAllHistories();
     }
+
+    public String deleteHistory(String id) {
+        HistoryRepository historyRepository = new HistoryRepository();
+        if (id != null && !id.isEmpty()) {
+            try {
+                historyRepository.deleteHistory(Long.parseLong(id));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return id;
+    }
+
 }

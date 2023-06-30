@@ -86,4 +86,34 @@ public class HistoryRepository {
         return historyList;
     }
 
+    // 삭제
+    public void deleteHistory(Long id) {
+        DBManager.JdbcConnector();
+        String query = "DELETE FROM history WHERE id = ?";
+
+        Connection conn = getConnection();
+        DBManager.connect();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = DBManager.getConnection().prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("해당 정보가 삭제 되었습니다.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        DBManager.disconnect();
+    }
+
 }

@@ -18,13 +18,16 @@ public class HistoryController extends HttpServlet {
         HistoryService historyService = new HistoryService();
         List<History> histories = historyService.getAllHistories();
 
-//        request.setAttribute("history", histories);
+        request.setAttribute("history", histories);
         request.getRequestDispatcher("/WEB-INF/views/history.jsp")
                 .forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HistoryService historyService = new HistoryService();
         historyService.save(request.getParameter("lat"), request.getParameter("lnt"));
+
+
     }
+
 }

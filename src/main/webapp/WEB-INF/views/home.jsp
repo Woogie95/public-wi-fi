@@ -48,27 +48,37 @@
         <th>Y좌표</th>
         <th>작업일자</th>
     </tr>
-    <c:forEach var="wifi" items="${wifiInfoList}">
-    <tr>
-        <td>${wifi.distance}</td>
-        <td>${wifi.id}</td>
-        <td>${wifi.region}</td>
-        <td><a href="wifi-detail?id=${wifi.id}&d=${wifi.distance}">${wifi.name}<a/></td>
-        <td>${wifi.address1}</td>
-        <td>${wifi.address2}</td>
-        <td>${wifi.floor}</td>
-        <td>${wifi.installType}</td>
-        <td>${wifi.installMby}</td>
-        <td>${wifi.serviceType}</td>
-        <td>${wifi.cmcwr}</td>
-        <td>${wifi.installYear}</td>
-        <td>${wifi.inout}</td>
-        <td>${wifi.remars3}</td>
-        <td>${wifi.lat}</td>
-        <td>${wifi.lnt}</td>
-        <td>${wifi.workTime}</td>
-    </tr>
+    </thead>
+
+    <tbody>
+    <%-- 근처 WIFI 정보 보기 클릭 안했을 때 --%>
+    <c:if test="${empty wifiInfoList}">
+        <tr id="wifiList_none">
+            <td colspan="17" style="text-align: center">위치 정보를 입력한 후에 조회해 주세요.</td>
+        </tr>
+    </c:if>
+    <c:forEach var="wifi" items="${requestScope.wifiInfoList}">
+        <tr id="wifiInfo">
+            <td>${wifi.distance}</td>
+            <td>${wifi.id}</td>
+            <td>${wifi.region}</td>
+            <td><a href="wifi-detail?id=${wifi.id}&d=${wifi.distance}">${wifi.name}<a/></td>
+            <td>${wifi.address1}</td>
+            <td>${wifi.address2}</td>
+            <td>${wifi.floor}</td>
+            <td>${wifi.installType}</td>
+            <td>${wifi.installMby}</td>
+            <td>${wifi.serviceType}</td>
+            <td>${wifi.cmcwr}</td>
+            <td>${wifi.installYear}</td>
+            <td>${wifi.inout}</td>
+            <td>${wifi.remars3}</td>
+            <td>${wifi.lat}</td>
+            <td>${wifi.lnt}</td>
+            <td>${wifi.workTime}</td>
+        </tr>
     </c:forEach>
+    </tbody>
 </table>
 </body>
 <style>
@@ -113,6 +123,7 @@
         }
     }
 
+    // 해당 LAT, LNT 가져와서 HistoryController 로 반환 해주는 기능
     function sendLocationToHistory(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
@@ -124,8 +135,19 @@
         document.getElementById('latInput').value = latitude;
         document.getElementById('lntInput').value = longitude;
         document.forms[0].submit();
+
+
+        // JavaScript 로 정보 있을 때 없을 때 표시 및 숨김 제어
+        const wifiListNone = document.getElementById("wifiList_none");
+        const wifiInfo = document.getElementById("wifiInfo");
+
+        if (wifiListNone && wifiListNone.length > 0) {
+            // 저장한 위치 정보가 없는 경우
+            wifiInfo.style.display = "none";
+        } else {
+            // 저장한 위치 정보가 있는 경우
+            wifiInfo.style.display = "table-row";
+        }
     }
 </script>
 </html>
-
-// db 어딨어 설정
