@@ -24,7 +24,7 @@
         <label for="lntInput">LNT:</label>
         <input type="text" id="lntInput" name="lnt" value="${longitude != null ? longitude : '0.0'}"/>
         <button type="button" onclick="getLocationAndSend()">내 위치 가져오기</button>
-        <button type="button">근처 WIFI 정보 보기</button>
+        <button type="button" onclick="getNearestWifiInfoSend()">근처 WIFI 정보 보기</button>
     </div>
 </form>
 <table id="wifi_tag">
@@ -51,34 +51,39 @@
     </thead>
 
     <tbody>
-    <%-- 근처 WIFI 정보 보기 클릭 안했을 때 --%>
-    <c:if test="${empty wifiInfoList}">
-        <tr id="wifiList_none">
-            <td colspan="17" style="text-align: center">위치 정보를 입력한 후에 조회해 주세요.</td>
-        </tr>
-    </c:if>
-    <c:forEach var="wifi" items="${requestScope.wifiInfoList}">
-        <tr id="wifiInfo">
-            <td>${wifi.distance}</td>
-            <td>${wifi.id}</td>
-            <td>${wifi.region}</td>
-            <td><a href="wifi-detail?id=${wifi.id}&d=${wifi.distance}">${wifi.name}<a/></td>
-            <td>${wifi.address1}</td>
-            <td>${wifi.address2}</td>
-            <td>${wifi.floor}</td>
-            <td>${wifi.installType}</td>
-            <td>${wifi.installMby}</td>
-            <td>${wifi.serviceType}</td>
-            <td>${wifi.cmcwr}</td>
-            <td>${wifi.installYear}</td>
-            <td>${wifi.inout}</td>
-            <td>${wifi.remars3}</td>
-            <td>${wifi.lat}</td>
-            <td>${wifi.lnt}</td>
-            <td>${wifi.workTime}</td>
-        </tr>
-    </c:forEach>
-    </tbody>
+    <c:choose>
+    <c:when test="${not empty wifiInfoList}">
+    <c:forEach var="wifiInfoList" items="${wifiInfoList}">
+    <tr>
+        <td>${ wifiInfoList.getX_SWIFI_DIST() }</td>
+        <td>${ wifiInfoList.getX_SWIFI_MGR_NO()}</td>
+        <td>${ wifiInfoList.getX_SWIFI_WRDOFC() }</td>
+        <td>
+            <a href="detail_page.do?X_SWIFI_MGR_NO=${wifiInfoList.getX_SWIFI_MGR_NO() }&X_SWIFI_DIST=${ wifiInfoList.getX_SWIFI_DIST() }">${ wifiInfoList.getX_SWIFI_MAIN_NM() }</a>
+        </td> <!-- 와이파이명 -->
+        <td>${ wifiInfoList.getX_SWIFI_ADRES1() }</td> <!-- 도로명주소 -->
+        <td>${ wifiInfoList.getX_SWIFI_ADRES2() }</td> <!-- 상세주소 -->
+        <td>${ wifiInfoList.getX_SWIFI_INSTL_FLOOR() }</td> <!-- 설치위치(층) -->
+        <td>${ wifiInfoList.getX_SWIFI_INSTL_TY() }</td> <!-- 설치유형 -->
+        <td>${ wifiInfoList.getX_SWIFI_INSTL_MBY() }</td> <!-- 설치기관 -->
+        <td>${ wifiInfoList.getX_SWIFI_SVC_SE() }</td> <!-- 서비스구분 -->
+        <td>${ wifiInfoList.getX_SWIFI_CMCWR() }</td> <!-- 망종류 -->
+        <td>${ wifiInfoList.getX_SWIFI_CNSTC_YEAR() }</td> <!-- 설치년도 -->
+        <td>${ wifiInfoList.getX_SWIFI_INOUT_DOOR() }</td> <!-- 실내외구분 -->
+        <td>${ wifiInfoList.getX_SWIFI_REMARS3() }</td> <!-- WIF접속환경 -->
+        <td>${ wifiInfoList.getLAT() }</td> <!-- X좌표 -->
+        <td>${ wifiInfoList.getLNT() }</td> <!-- Y좌표 -->
+        <td>${ wifiInfoList.getWORK_DTTM() }</td> <!-- 작업일자 -->
+    </tr>
+    <tr>
+        </c:forEach>
+        </c:when>
+        <c:otherwise>
+    <tr>
+        <td colspan="17" style="text-align: center;">위치 정보를 입력한 후에 사용해주세요</td>
+    </tr>
+    </c:otherwise>
+    </c:choose>
 </table>
 </body>
 <style>
@@ -149,5 +154,49 @@
             wifiInfo.style.display = "table-row";
         }
     }
+
+    function getNearestWifiInfoSend() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                const wifiInfoList = JSON.parse(xhr.responseText);
+
+                // JavaScript 로 테이블에 WiFi 정보 추가하는 코드 작성
+                const tbody = document.querySelector("#wifi_tag tbody");
+                tbody.innerHTML = ""; // 기존 데이터 초기화
+
+                for (let i = 0; i < wifiInfoList.length; i++) {
+                    const wifi = wifiInfoList[i];
+                    const tr = document.createElement("tr");
+
+                    const distanceTd = document.createElement("td");
+                    distanceTd.textContent = wifi.distance;
+                    tr.appendChild(distanceTd);
+
+                    // 나머지 필드도 동일하게 작성
+
+                    tbody.appendChild(tr);
+                }
+
+                // JavaScript로 정보 있을 때 없을 때 표시 및 숨김 제어
+                const wifiListNone = document.getElementById("wifiList_none");
+                const wifiInfo = document.getElementById("wifiInfo");
+
+                if (wifiInfoList.length === 0) {
+                    // WiFi 정보가 없는 경우
+                    wifiListNone.style.display = "table-row";
+                    wifiInfo.style.display = "none";
+                } else {
+                    // WiFi 정보가 있는 경우
+                    wifiListNone.style.display = "none";
+                    wifiInfo.style.display = "table-row";
+                }
+            }
+        };
+        xhr.send();
+    }
+
 </script>
 </html>

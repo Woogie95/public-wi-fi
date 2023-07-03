@@ -12,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static com.example.publicwifi.util.OpenApiInfo.*;
 
@@ -96,6 +97,7 @@ public class WifiInfoService {
                 for (int j = 0; j < jsonArray.length(); j++) {
                     WifiInfo wifiInfo = new WifiInfo();
                     temp = (JSONObject) jsonArray.get(j);
+
                     wifiInfo.setMgrNo(String.valueOf(temp.get("X_SWIFI_MGR_NO")));
                     wifiInfo.setWrdofc(String.valueOf(temp.get("X_SWIFI_WRDOFC")));
                     wifiInfo.setMainNm(String.valueOf(temp.get("X_SWIFI_MAIN_NM")));
@@ -131,6 +133,15 @@ public class WifiInfoService {
         JSONObject jsonObject = new JSONObject(defaultApi);
         JSONObject tbPublicWifiInfo = jsonObject.getJSONObject("TbPublicWifiInfo");
         return tbPublicWifiInfo.getJSONArray("row");
+    }
+
+    // 거리 계산해서 20개 전체 조회
+    public List<WifiInfo> getNearestWifiInfo(String lat, String lnt) {
+        WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
+        List<WifiInfo> nearestWifiInfos = wifiInfoRepository.getNearestWifiInfo(lat, lnt);
+        System.out.println("나는 서비스야 : " + nearestWifiInfos);
+
+        return nearestWifiInfos;
     }
 
 }

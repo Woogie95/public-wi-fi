@@ -23,7 +23,7 @@ public class HistoryController extends HttpServlet {
                 .forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HistoryService historyService = new HistoryService();
         historyService.save(request.getParameter("lat"), request.getParameter("lnt"));
 
