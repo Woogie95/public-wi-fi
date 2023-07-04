@@ -24,7 +24,8 @@
         <label for="lntInput">LNT:</label>
         <input type="text" id="lntInput" name="lnt" value="${longitude != null ? longitude : '0.0'}"/>
         <button type="button" onclick="getLocationAndSend()">내 위치 가져오기</button>
-        <button type="button" onclick="getNearestWifiInfoSend()">근처 WIFI 정보 보기</button>
+        <%--        <button type=submit onclick="getNearestWifiInfoSend()">근처 WIFI 정보 보기</button>--%>
+        <input type="submit" value="주변 와이파이 정보 불러오기" id="submit-wifi_info"/>
     </div>
 </form>
 <table id="wifi_tag">
@@ -157,7 +158,7 @@
 
     function getNearestWifiInfoSend() {
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "", true);
+        xhr.open("POST", "wifiInfo_list", true); // 요청을 "wifiInfo_list"로 보내도록 수정합니다.
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -175,7 +176,69 @@
                     distanceTd.textContent = wifi.distance;
                     tr.appendChild(distanceTd);
 
-                    // 나머지 필드도 동일하게 작성
+                    const mgrNoTd = document.createElement("td");
+                    mgrNoTd.textContent = wifi.mgrNo;
+                    tr.appendChild(mgrNoTd);
+
+                    const guTd = document.createElement("td");
+                    guTd.textContent = wifi.gu;
+                    tr.appendChild(guTd);
+
+                    const wifiNameTd = document.createElement("td");
+                    wifiNameTd.innerHTML = '<a href="detail_page.do?X_SWIFI_MGR_NO=' + wifi.mgrNo + '&X_SWIFI_DIST=' + wifi.distance + '">' + wifi.wifiName + '</a>';
+                    tr.appendChild(wifiNameTd);
+
+                    const addressTd = document.createElement("td");
+                    addressTd.textContent = wifi.address;
+                    tr.appendChild(addressTd);
+
+                    const detailAddressTd = document.createElement("td");
+                    detailAddressTd.textContent = wifi.detailAddress;
+                    tr.appendChild(detailAddressTd);
+
+                    const floorTd = document.createElement("td");
+                    floorTd.textContent = wifi.floor;
+                    tr.appendChild(floorTd);
+
+                    const installTypeTd = document.createElement("td");
+                    installTypeTd.textContent = wifi.installType;
+                    tr.appendChild(installTypeTd);
+
+                    const installAgencyTd = document.createElement("td");
+                    installAgencyTd.textContent = wifi.installAgency;
+                    tr.appendChild(installAgencyTd);
+
+                    const serviceTypeTd = document.createElement("td");
+                    serviceTypeTd.textContent = wifi.serviceType;
+                    tr.appendChild(serviceTypeTd);
+
+                    const networkTypeTd = document.createElement("td");
+                    networkTypeTd.textContent = wifi.networkType;
+                    tr.appendChild(networkTypeTd);
+
+                    const installYearTd = document.createElement("td");
+                    installYearTd.textContent = wifi.installYear;
+                    tr.appendChild(installYearTd);
+
+                    const inOutTypeTd = document.createElement("td");
+                    inOutTypeTd.textContent = wifi.inOutType;
+                    tr.appendChild(inOutTypeTd);
+
+                    const wifiEnvironmentTd = document.createElement("td");
+                    wifiEnvironmentTd.textContent = wifi.wifiEnvironment;
+                    tr.appendChild(wifiEnvironmentTd);
+
+                    const xCoordTd = document.createElement("td");
+                    xCoordTd.textContent = wifi.xCoord;
+                    tr.appendChild(xCoordTd);
+
+                    const yCoordTd = document.createElement("td");
+                    yCoordTd.textContent = wifi.yCoord;
+                    tr.appendChild(yCoordTd);
+
+                    const workDateTd = document.createElement("td");
+                    workDateTd.textContent = wifi.workDate;
+                    tr.appendChild(workDateTd);
 
                     tbody.appendChild(tr);
                 }

@@ -1,6 +1,5 @@
 package com.example.publicwifi.controller;
 
-import com.example.publicwifi.domain.WifiInfo;
 import com.example.publicwifi.service.WifiInfoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "home", urlPatterns = "/")
 public class HomeController extends HttpServlet {
@@ -30,18 +28,17 @@ public class HomeController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String lat = request.getParameter("lat");
         String lnt = request.getParameter("lnt");
+
         request.setAttribute("latitude", lat);
         request.setAttribute("longitude", lnt);
 
-        // 여기서 경도, 위도 로
-        List<WifiInfo> wifiInfoList = wifiInfoService.getNearestWifiInfo(lat, lnt);
-
-        request.setAttribute("wifiInfoList", wifiInfoList);
-
-        System.out.println("나는 홈 컨틀롤러야 : " + wifiInfoList);
-
         request.getRequestDispatcher("/WEB-INF/views/home.jsp")
                 .forward(request, response);
+
+// 밑에 꺼 호출하면 왜 2번임?
+        // WifiInfoListController 호출
+        WifiInfoListController wifiInfoListController = new WifiInfoListController();
+        wifiInfoListController.doPost(request, response);
     }
 
 }

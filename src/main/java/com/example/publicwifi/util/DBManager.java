@@ -33,6 +33,7 @@ public class DBManager {
         try {
             if (connection != null) {
                 connection.close();
+                connection = null;
             }
         } catch (SQLException e) {
             e.printStackTrace();

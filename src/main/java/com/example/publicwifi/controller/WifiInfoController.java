@@ -19,7 +19,7 @@ public class WifiInfoController extends HttpServlet {
         WifiInfoService wifiInfoService = new WifiInfoService();
         // 와이파이 총 개수
         long wifiTotalCount = wifiInfoService.getPublicWifiTotalCount(); // 카운트 하면서 디비에 저장함
-        // 누가 주냐고
+
         wifiInfoService.getPublicWifi(wifiTotalCount);
         request.setAttribute("totalWifiCount", wifiTotalCount);
         request.getRequestDispatcher("/WEB-INF/views/load_wifi.jsp")
