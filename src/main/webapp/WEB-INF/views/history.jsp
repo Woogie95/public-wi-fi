@@ -51,6 +51,46 @@
 </table>
 </body>
 
+
+<script>
+    const wifiInfoListNone = document.getElementById("wifiInfoList_none");
+    const wifiInList = document.getElementById("wifiInfoList");
+
+    // 수정된 부분: wifiInfoListNone 또는 wifiInList 가 null 인 경우에 대한 조건 추가
+    if (wifiInfoListNone.length > 0) {
+        // 저장한 위치 정보가 없는 경우
+        wifiInList.style.display = "none";
+    } else {
+        // 저장한 위치 정보가 있는 경우
+        wifiInList.style.display = "table-row";
+    }
+
+    function deleteHistory(historyId) {
+        if (confirm('정말로 삭제하시겠습니까?')) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/delete_history', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    window.location.reload();
+                }
+            };
+            xhr.send("historyId=" + encodeURIComponent(historyId));
+        }
+    }
+
+    // home.jsp 로 lat, lnt 보내기
+    function sendLocationToHome() {
+        let lat = document.getElementById("latInput").value;
+        let lnt = document.getElementById("lntInput").value;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "home.jsp", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("lat=" + encodeURIComponent(lat) + "&lnt=" + encodeURIComponent(lnt));
+    }
+</script>
+
 <style>
     #history_tag {
         margin-top: 10px;
@@ -80,33 +120,6 @@
         color: white;
     }
 </style>
-<script>
-    // JavaScript로 테이블 표시 및 숨김 제어
-    const historyInfoNone = document.getElementById("history_info_none");
-    const historyInfo = document.getElementById("history_info");
-
-    if (historyInfoNone && historyInfoNone.length > 0) {
-        // 저장한 위치 정보가 없는 경우
-        historyInfo.style.display = "none";
-    } else {
-        // 저장한 위치 정보가 있는 경우
-        historyInfo.style.display = "table-row";
-    }
-
-    function deleteHistory(historyId) {
-        if (confirm('정말로 삭제하시겠습니까?')) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/delete_history', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                     window.location.reload();
-                }
-            };
-            xhr.send("historyId=" + encodeURIComponent(historyId));
-        }
-    }
-</script>
 
 </html>
 

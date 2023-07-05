@@ -26,8 +26,7 @@ public class HistoryController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HistoryService historyService = new HistoryService();
         historyService.save(request.getParameter("lat"), request.getParameter("lnt"));
-
-
+        System.out.println("히스토리컨트롤러 : " + request.getParameter("lat") + " " + request.getParameter("lnt"));
     }
 
 }

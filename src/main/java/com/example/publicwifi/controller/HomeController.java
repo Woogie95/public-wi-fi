@@ -1,6 +1,5 @@
 package com.example.publicwifi.controller;
 
-import com.example.publicwifi.service.WifiInfoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,12 +10,6 @@ import java.io.IOException;
 
 @WebServlet(name = "home", urlPatterns = "/")
 public class HomeController extends HttpServlet {
-
-    private final WifiInfoService wifiInfoService;
-
-    public HomeController() {
-        this.wifiInfoService = new WifiInfoService();
-    }
 
     // 메인 호출
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,11 +27,6 @@ public class HomeController extends HttpServlet {
 
         request.getRequestDispatcher("/WEB-INF/views/home.jsp")
                 .forward(request, response);
-
-// 밑에 꺼 호출하면 왜 2번임?
-        // WifiInfoListController 호출
-        WifiInfoListController wifiInfoListController = new WifiInfoListController();
-        wifiInfoListController.doPost(request, response);
     }
 
 }

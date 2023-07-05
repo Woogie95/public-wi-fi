@@ -1,9 +1,15 @@
 package com.example.publicwifi.repository;
 
 import com.example.publicwifi.domain.WifiInfo;
+import com.example.publicwifi.service.DistanceCalculate;
 import com.example.publicwifi.util.DBManager;
 
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.PriorityQueue;
 
 import static com.example.publicwifi.util.DBManager.getConnection;
 
@@ -35,57 +41,71 @@ public class WifiInfoRepository {
         }
     }
 
-    // 하버사인
-    public void calculateAndSaveDistanceForAll(double userLat, double userLnt) {
+    // 전체 조회
+    public List<WifiInfo> getAllWifiInfo(double userLat, double userLnt) {
+        List<WifiInfo> wifiInfoList = new ArrayList<>();
+        String query = "SELECT * FROM wifi_info";
         DBManager.JdbcConnector();
+        Connection connection = getConnection();
         DBManager.connect();
-        try (Connection conn = DBManager.getConnection();
-             Statement stmt = conn.createStatement()) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = DBManager.getConnection().prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
 
-            String updateQuery = "SELECT * FROM wifi_info WHERE lat <> 0.000 AND lnt <> 0.000\n" +
-                    "ORDER BY distance ASC LIMIT 20";
+            PriorityQueue<WifiInfo> distanceQueue = new PriorityQueue<>(Comparator.comparingDouble(WifiInfo::getDistance));
 
-            ResultSet resultSet = stmt.executeQuery(updateQuery);
             while (resultSet.next()) {
-                double wifiLnt = resultSet.getDouble("LNT");
-                double wifiLat = resultSet.getDouble("LAT");
+                double lat = resultSet.getDouble("LAT");
+                double lnt = resultSet.getDouble("LNT");
+                DecimalFormat decimalFormat = new DecimalFormat("#.####"); // 소숫점 네 자리까지 포맷
+                double distance = Double.parseDouble(decimalFormat.format(DistanceCalculate.calculateDistance(userLat, userLnt, lat, lnt)));
 
-                double distance = calculateDistance(userLat, userLnt, wifiLat, wifiLnt);
-
-
-                PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
-                updateStmt.setDouble(1, distance);
-                //updateStmt.executeUpdate();
-                //updateStmt.close();
+                if (distance < 20) {
+                    WifiInfo wifiInfo = new WifiInfo(
+                            resultSet.getDouble("distance"),
+                            resultSet.getString("x_wifi_mgr_no"),
+                            resultSet.getString("x_wifi_wrdo_fc"),
+                            resultSet.getString("x_wifi_main_nm"),
+                            resultSet.getString("x_wifi_adres1"),
+                            resultSet.getString("x_wifi_adres2"),
+                            resultSet.getString("x_wifi_instl_floor"),
+                            resultSet.getString("x_wifi_instl_ty"),
+                            resultSet.getString("x_wifi_instl_mby"),
+                            resultSet.getString("x_wifi_svc_se"),
+                            resultSet.getString("x_wifi_cmcwr"),
+                            resultSet.getString("x_wifi_cnstc_year"),
+                            resultSet.getString("x_wifi_inout_door"),
+                            resultSet.getString("x_wifi_remars3"),
+                            resultSet.getString("lat"),
+                            resultSet.getString("lnt"),
+                            resultSet.getString("work_dttm"));
+                    distanceQueue.offer(wifiInfo);
+                    if (distanceQueue.size() > 20) {
+                        distanceQueue.poll();
+                    }
+                }
             }
-            resultSet.close();
-            System.out.println("처리 완료");
+            wifiInfoList.addAll(distanceQueue);
         } catch (SQLException e) {
-            System.out.println("실패");
             e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            DBManager.disconnect();
         }
-        DBManager.disconnect(); // 이거는 혹시 몰라서 자동 종료 될까봐 명시적으로 내가 종료하겠다는 의미로 선언했음
-    }
-
-
-    private double calculateDistance(double userLat, double userLnt, double wifiLat, double wifiLnt) {
-        final int R = 6371; // 지구 반지름 (단위: km)
-
-        double lat1 = Math.toRadians(userLat); // 대상 위도값
-        double lon1 = Math.toRadians(userLnt); // 대상 경도값
-
-        double lat2 = Math.toRadians(wifiLat);
-        double lon2 = Math.toRadians(wifiLnt);
-
-        double latDistance = lat2 - lat1;
-        double lonDistance = lon2 - lon1;
-
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(lat1) * Math.cos(lat2)
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return R * c;
+        return wifiInfoList;
     }
 }
