@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,74 +27,78 @@
         <button type="button" id="nearWifiInfo" onclick="getLocationAndLoadWifiSend()">근처 WIFI 정보 보기</button>
     </div>
 </form>
-<table id="wifi_tag">
-    <thead>
-    <tr>
-        <th>거리(km)</th>
-        <th>관리번호</th>
-        <th>자치구</th>
-        <th>와이파이명</th>
-        <th>도로명주소</th>
-        <th>상세주소</th>
-        <th>설치위치(층)</th>
-        <th>설치유형</th>
-        <th>설치기관</th>
-        <th>서비스구분</th>
-        <th>망종류</th>
-        <th>설치년도</th>
-        <th>실내외구분</th>
-        <th>WIFI접속환경</th>
-        <th>X좌표</th>
-        <th>Y좌표</th>
-        <th>작업일자</th>
-    </tr>
-    </thead>
-    <tbody>
-        <c:if test="${empty wifiInfoList}">
-            <tr id="wifiInfoList_none">
-                <td colspan="17" style="text-align: center;">위치 정보를 입력한 후에 사용해주세요</td>
-            </tr>
-        </c:if>
-    <c:forEach var="wifiInfo" items="${wifiInfoList}">
-        <tr id="wifiInfoList">
-            <td>${wifiInfo.distance}</td>
-            <td>${wifiInfo.mgrNo}</td>
-            <td>${wifiInfo.wrdofc}</td>
-            <td>${wifiInfo.mainNm}</td>
-            <td>${wifiInfo.address1}</td>
-            <td>${wifiInfo.address2}</td>
-            <td>${wifiInfo.instlFloor}</td>
-            <td>${wifiInfo.instlTy}</td>
-            <td>${wifiInfo.instlMby}</td>
-            <td>${wifiInfo.svcSe}</td>
-            <td>${wifiInfo.cmcwr}</td>
-            <td>${wifiInfo.cnstcYear}</td>
-            <td>${wifiInfo.inoutDoor}</td>
-            <td>${wifiInfo.remars3}</td>
-            <td>${wifiInfo.lat}</td>
-            <td>${wifiInfo.lnt}</td>
-            <td>${wifiInfo.workDttm}</td>
+<%--ㅅㅈ--%>
+<div id="wifiInfoTable">
+    <table id="wifi_tag">
+        <thead>
+        <tr>
+            <th>거리(km)</th>
+            <th>관리번호</th>
+            <th>자치구</th>
+            <th>와이파이명</th>
+            <th>도로명주소</th>
+            <th>상세주소</th>
+            <th>설치위치(층)</th>
+            <th>설치유형</th>
+            <th>설치기관</th>
+            <th>서비스구분</th>
+            <th>망종류</th>
+            <th>설치년도</th>
+            <th>실내외구분</th>
+            <th>WIFI접속환경</th>
+            <th>X좌표</th>
+            <th>Y좌표</th>
+            <th>작업일자</th>
         </tr>
-    </c:forEach>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+<%--        <c:if test="${empty wifiInfoList}">--%>
+<%--            <tr id="wifiInfoList_none">--%>
+<%--                <td colspan="17" style="text-align: center;">위치 정보를 입력한 후에 사용해주세요</td>--%>
+<%--            </tr>--%>
+<%--        </c:if>--%>
+        <c:forEach var="wifiInfo" items="${wifiInfoList}">
+            <tr id="wifiInfoList">
+                <td>${wifiInfo.distance}</td>
+                <td>${wifiInfo.mgrNo}</td>
+                <td>${wifiInfo.wrdofc}</td>
+                <td>${wifiInfo.mainNm}</td>
+                <td>${wifiInfo.address1}</td>
+                <td>${wifiInfo.address2}</td>
+                <td>${wifiInfo.instlFloor}</td>
+                <td>${wifiInfo.instlTy}</td>
+                <td>${wifiInfo.instlMby}</td>
+                <td>${wifiInfo.svcSe}</td>
+                <td>${wifiInfo.cmcwr}</td>
+                <td>${wifiInfo.cnstcYear}</td>
+                <td>${wifiInfo.inoutDoor}</td>
+                <td>${wifiInfo.remars3}</td>
+                <td>${wifiInfo.lat}</td>
+                <td>${wifiInfo.lnt}</td>
+                <td>${wifiInfo.workDttm}</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 </body>
 
 
 <script>
-    let wifiInfoListNone = document.getElementById("wifiInfoList_none");
-    let wifiInList = document.getElementById("wifiInfoList");
+    // let wifiInfoListNone = document.getElementById("wifiInfoList_none");
+    // let wifiInList = document.getElementById("wifiInfoList");
+    //
+    // console.log(wifiInfoListNone)
+    // console.log(wifiInList)
+    //
+    // if (wifiInfoListNone && wifiInfoListNone.length > 0) {
+    //     // 저장한 위치 정보가 없는 경우
+    //     wifiInList.style.display = "none";
+    // } else {
+    //     // 저장한 위치 정보가 있는 경우
+    //     wifiInList.style.display = "table-row";
+    // }
 
-    console.log(wifiInfoListNone)
-    console.log(wifiInList)
-
-    if (wifiInfoListNone && wifiInfoListNone.length > 0) {
-        // 저장한 위치 정보가 없는 경우
-        wifiInList.style.display = "none";
-    } else {
-        // 저장한 위치 정보가 있는 경우
-        wifiInList.style.display = "table-row";
-    }
 
     // 히스토리로 전송
     function getLocationAndHistorySend() {
@@ -137,6 +140,23 @@
         document.getElementById('latInput').value = lat;
         document.getElementById('lntInput').value = lnt;
         document.forms[0].submit();
+        alert("여긴 읽는다 이거지")
+        xhr.onreadystatechange = function () { // ㅅㅈ
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // 응답을 받았을 때의 처리
+                const responseData = xhr.responseText;
+                // 결과를 테이블에 삽입하는 로직 호출
+                updateWifiInfoTable(responseData);
+            }
+        }
+    }
+
+    function updateWifiInfoTable(responseData) { // ㅅㅈ
+        // 테이블을 감싸는 <div> 요소 가져오기
+        alert("dlaslkdaslkd")
+        const wifiInfoTableDiv = document.getElementById('wifiInfoTable');
+        // <div> 요소 내부에 결과를 삽입
+        wifiInfoTableDiv.innerHTML = responseData;
     }
 
     // TODO - WifiInfoController 에서 Post 방식으로 호출 해보는 중
