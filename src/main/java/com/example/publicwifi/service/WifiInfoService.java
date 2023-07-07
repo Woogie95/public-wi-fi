@@ -12,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static com.example.publicwifi.util.OpenApiInfo.*;
 
@@ -132,6 +133,20 @@ public class WifiInfoService {
         JSONObject jsonObject = new JSONObject(defaultApi);
         JSONObject tbPublicWifiInfo = jsonObject.getJSONObject("TbPublicWifiInfo");
         return tbPublicWifiInfo.getJSONArray("row");
+    }
+
+    // 전체 조회해서 20개 가져오기
+    public List<WifiInfo> getNearWifiInfo(String lat, String lnt) {
+        WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
+        double latTypeChange = Double.parseDouble(lat);
+        double lntTypeChange = Double.parseDouble(lnt);
+        return wifiInfoRepository.getAllWifiInfo(latTypeChange, lntTypeChange);
+    }
+
+    // 상세조회
+    public WifiInfo getWifiInfoDetail(String mgrNo) {
+        WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
+        return wifiInfoRepository.getWifiInfoDetail(mgrNo);
     }
 
 }

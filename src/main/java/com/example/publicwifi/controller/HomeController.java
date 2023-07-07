@@ -1,5 +1,9 @@
 package com.example.publicwifi.controller;
 
+
+import com.example.publicwifi.domain.WifiInfo;
+import com.example.publicwifi.service.HistoryService;
+import com.example.publicwifi.service.WifiInfoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,26 +11,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "home", urlPatterns = "/")
+@WebServlet(name = "home", urlPatterns = "/home")
 public class HomeController extends HttpServlet {
-
-    // 메인 호출
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/home.jsp")
-                .forward(request, response);
-    }
-
-    // 내 위치 가져오기 버튼 클릭 시 위도, 경도를 포함하여 화면에 보여짐
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String lat = request.getParameter("lat");
         String lnt = request.getParameter("lnt");
 
-        request.setAttribute("latitude", lat);
-        request.setAttribute("longitude", lnt);
+        // 히스토리 등록 해주기
+        HistoryService historyService = new HistoryService();
+        historyService.save(lat, lnt);
 
-        request.getRequestDispatcher("/WEB-INF/views/home.jsp")
-                .forward(request, response);
+        // 와이파이 정보 20개 가져오기
+        WifiInfoService wifiInfoService = new WifiInfoService();
+        List<WifiInfo> wifiInfoList = wifiInfoService.getNearWifiInfo(lat, lnt);
+
+        request.setAttribute("wifiInfoList", wifiInfoList);
+        // JSP 파일로 포워딩
+        request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
     }
 
 }

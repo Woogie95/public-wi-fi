@@ -1,4 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,19 +9,12 @@
 <body>
 <h1>위치 히스토리 목록</h1>
 
-<div>
-    <a href="home.jsp">홈</a> |
-    <a href="history.jsp">위치 히스토리 목록</a> |
-    <a href="load_wifi.jsp">Open API 와이파이 정보 가져오기</a> |
-    <a href="favorites.jsp">즐겨 찾기 보기</a> |
-    <a href="bookmark_group.jsp">즐겨 찾기 그룹 관리</a>
-</div>
+<%@ include file="./category.jsp" %>
 
 <div>
-    <button id="btn-bookmark" type="button">북마크 그룹 이름 추가</button>
+    <a href="bookmark_group_add.jsp"><input id="btn-bookmark" type="button" value="북마크 그룹 이름 추가"/></a>
 </div>
 <table id="bookmark_group_tag">
-    <thead>
     <tr>
         <th>ID</th>
         <th>북마크 이름</th>
@@ -28,17 +23,57 @@
         <th>수정일자</th>
         <th>비고</th>
     </tr>
-
-    <td>asdasd</td>
-    <td>asdasd</td>
-    <td>asdasd</td>
-    <td>asdasd</td>
-    <td>asdasd</td>
-    </thead>
-    <!-- 테이블 데이터를 동적으로 추가하는 로직을 구현할 수 있습니다 -->
+    <!-- 저장한 위치 정보가 없을 때 -->
+    <c:if test="${empty bookmarkGroupList}">
+        <tr>
+            <td colspan="6" style="text-align: center">정보가 존재하지 않습니다.</td>
+        </tr>
+    </c:if>
+    <c:forEach var="bookmarkGroup" items="${bookmarkGroupList}">
+            <td>${bookmarkGroup.id}</td>
+            <td>${bookmarkGroup.bookmarkName}</td>
+            <td>${bookmarkGroup.sequence}</td>
+            <td>${bookmarkGroup.registerDate}</td>
+            <td>${bookmarkGroup.updateDate}</td>
+            <td style="text-align: center;">
+                <button type="button" onclick="updateBookmark(${bookmarkGroup.id})">수정</button>
+                <button type="button" onclick="deleteHistory(${bookmarkGroup.id})">삭제</button>
+            </td>
+    </c:forEach>
 </table>
-
 </body>
+<script>
+    function updateBookmark(bookmarkGroupId, newTitle) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/update_bookmark', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    alert('북마크가 업데이트되었습니다.');
+                    window.location.reload();
+                } else {
+                    alert('업데이트에 실패했습니다.');
+                }
+            }
+        };
+        xhr.send("bookmarkGroupId=" + encodeURIComponent(bookmarkGroupId) + "&newTitle=" + encodeURIComponent(newTitle));
+    }
+    function deleteBookmark(bookmarkGroupId) {
+        if (confirm('정말로 삭제하시겠습니까?')) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/delete_bookmark', true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    window.location.reload();
+                }
+            };
+            xhr.send("bookmarkGroupId=" + encodeURIComponent(bookmarkGroupId));
+        }
+    }
+</script>
 <style>
     #btn-bookmark {
         margin-top: 10px;

@@ -10,7 +10,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -29,6 +29,33 @@
     <servlet-mapping>
         <servlet-name>load_wifi</servlet-name>
         <url-pattern>/load_wifi</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>main</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.MainController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>main</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bookmark_group</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.BookmarkGroupController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bookmark_group</servlet-name>
+        <url-pattern>/bookmark_group</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bookmark</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.BookmarkController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bookmark</servlet-name>
+        <url-pattern>/bookmark</url-pattern>
     </servlet-mapping>
 
 

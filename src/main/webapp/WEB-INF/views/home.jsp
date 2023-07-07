@@ -1,36 +1,29 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>와이파이 정보 구하기</title>
 </head>
 <body>
 <h1>와이파이 정보 구하기</h1>
 
-<div>
-    <a href="">홈</a> |
-    <a href="history">위치 히스토리 목록</a> |
-    <a href="load_wifi">Open API 와이파이 정보 가져오기</a> |
-    <a href="bookmark.jsp">즐겨 찾기 보기</a> |
-    <a href="bookmark_group.jsp">즐겨 찾기 그룹 관리</a>
-</div>
+<%@ include file="./category.jsp" %>
 
-<form action="" method="post">
+<form id="location-form" action="home" method="post">
     <div id="input">
-        <label for="latInput">LAT:</label>
-        <input type="text" id="latInput" name="lat" value="${latitude != null ? latitude : '0.0'}"/> ,
-        <label for="lntInput">LNT:</label>
-        <input type="text" id="lntInput" name="lnt" value="${longitude != null ? longitude : '0.0'}"/>
-        <button type="button" id="myLocation" onclick="getLocationAndHistorySend()">내 위치 가져오기</button>
-        <button type="button" id="nearWifiInfo" onclick="getLocationAndLoadWifiSend()">근처 WIFI 정보 보기</button>
+        <label for="lat">LAT:</label>
+        <input type="text" id="lat" name="lat" value="${latitude != null ? latitude : '0.0'}"/> ,
+        <label for="lnt">LNT:</label>
+        <input type="text" id="lnt" name="lnt" value="${longitude != null ? longitude : '0.0'}"/>
+        <input type="button" value="내 위치 가져오기" id="myLocation"/>
+        <input type="submit" value="근처 WIFI 정보 보기" id="nearWifiInfo"/>
     </div>
 </form>
-<%--ㅅㅈ--%>
 <div id="wifiInfoTable">
     <table id="wifi_tag">
-        <thead>
         <tr>
             <th>거리(km)</th>
             <th>관리번호</th>
@@ -50,130 +43,85 @@
             <th>Y좌표</th>
             <th>작업일자</th>
         </tr>
-        </thead>
-        <tbody>
-<%--        <c:if test="${empty wifiInfoList}">--%>
-<%--            <tr id="wifiInfoList_none">--%>
-<%--                <td colspan="17" style="text-align: center;">위치 정보를 입력한 후에 사용해주세요</td>--%>
-<%--            </tr>--%>
-<%--        </c:if>--%>
-        <c:forEach var="wifiInfo" items="${wifiInfoList}">
-            <tr id="wifiInfoList">
-                <td>${wifiInfo.distance}</td>
-                <td>${wifiInfo.mgrNo}</td>
-                <td>${wifiInfo.wrdofc}</td>
-                <td>${wifiInfo.mainNm}</td>
-                <td>${wifiInfo.address1}</td>
-                <td>${wifiInfo.address2}</td>
-                <td>${wifiInfo.instlFloor}</td>
-                <td>${wifiInfo.instlTy}</td>
-                <td>${wifiInfo.instlMby}</td>
-                <td>${wifiInfo.svcSe}</td>
-                <td>${wifiInfo.cmcwr}</td>
-                <td>${wifiInfo.cnstcYear}</td>
-                <td>${wifiInfo.inoutDoor}</td>
-                <td>${wifiInfo.remars3}</td>
-                <td>${wifiInfo.lat}</td>
-                <td>${wifiInfo.lnt}</td>
-                <td>${wifiInfo.workDttm}</td>
-            </tr>
-        </c:forEach>
-        </tbody>
+        <c:choose>
+            <c:when test="${not empty wifiInfoList}">
+                <c:forEach var="wifiInfo" items="${wifiInfoList}">
+                    <tr>
+                        <td>${wifiInfo.getDistance()}</td>
+                        <td>${wifiInfo.getMgrNo()}</td>
+                        <td>${wifiInfo.getWrdofc()}</td>
+                        <td>
+                            <a href="detail_page.do?X_SWIFI_MGR_NO=${wifiDetail.getX_SWIFI_MGR_NO() }&X_SWIFI_DIST=${ wifiDetail.getX_SWIFI_DIST() }">${ wifiDetail.getX_SWIFI_MAIN_NM() }</a>
+                        </td>
+                        <td>${wifiInfo.getAddress1()}</td>
+                        <td>${wifiInfo.getAddress2()}</td>
+                        <td>${wifiInfo.getInstlFloor()}</td>
+                        <td>${wifiInfo.getInstlTy()}</td>
+                        <td>${wifiInfo.getInstlMby()}</td>
+                        <td>${wifiInfo.getSvcSe()}</td>
+                        <td>${wifiInfo.getCmcwr()}</td>
+                        <td>${wifiInfo.getCnstcYear()}</td>
+                        <td>${wifiInfo.getInoutDoor()}</td>
+                        <td>${wifiInfo.getRemars3()}</td>
+                        <td>${wifiInfo.getLat()}</td>
+                        <td>${wifiInfo.getLnt()}</td>
+                        <td>${wifiInfo.getWorkDttm()}</td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <tr>
+                    <td colspan="17" style="text-align: center;">위치 정보를 입력한 후에 사용해주세요</td>
+                </tr>
+            </c:otherwise>
+        </c:choose>
     </table>
 </div>
 </body>
 
-
 <script>
-    // let wifiInfoListNone = document.getElementById("wifiInfoList_none");
-    // let wifiInList = document.getElementById("wifiInfoList");
-    //
-    // console.log(wifiInfoListNone)
-    // console.log(wifiInList)
-    //
-    // if (wifiInfoListNone && wifiInfoListNone.length > 0) {
-    //     // 저장한 위치 정보가 없는 경우
-    //     wifiInList.style.display = "none";
-    // } else {
-    //     // 저장한 위치 정보가 있는 경우
-    //     wifiInList.style.display = "table-row";
-    // }
+    $(document).ready(function () {
 
-
-    // 히스토리로 전송
-    function getLocationAndHistorySend() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(sendLocationToHistory);
-        } else {
-            alert("위치 정보를 불러올 수 없습니다.");
-        }
-    }
-
-    // 해당 LAT, LNT 가져와서 HistoryController 로 반환 해주는 기능
-    function sendLocationToHistory(position) {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "history", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("lat=" + latitude + "&lnt=" + longitude);
-        document.getElementById('latInput').value = latitude;
-        document.getElementById('lntInput').value = longitude;
-        document.forms[0].submit();
-    }
-
-    // history.jsp 에서 전달된 lat 와 lnt 값을 받음
-    function getLocationAndLoadWifiSend() {
-        let lat = document.getElementById("latInput").value;
-        let lnt = document.getElementById("lntInput").value;
-
-        sendLocationToLoadWifi(lat, lnt);
-    }
-
-    // WifiInfoController 로 전송
-    function sendLocationToLoadWifi(lat, lnt) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "load_wifi", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("lat=" + lat + "&lnt=" + lnt);
-        document.getElementById('latInput').value = lat;
-        document.getElementById('lntInput').value = lnt;
-        document.forms[0].submit();
-        alert("여긴 읽는다 이거지")
-        xhr.onreadystatechange = function () { // ㅅㅈ
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // 응답을 받았을 때의 처리
-                const responseData = xhr.responseText;
-                // 결과를 테이블에 삽입하는 로직 호출
-                updateWifiInfoTable(responseData);
+        $("#myLocation").click(function () {
+            if (navigator.permissions) {
+                navigator.permissions.query({name: 'geolocation'}).then(function (result) {
+                    if (result.state === 'granted') {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            getLocation(position);
+                        });
+                    } else if (result.state === 'prompt') {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            getLocation(position);
+                        });
+                    } else {
+                        showErrorMessage("위치 정보가 없습니다.");
+                    }
+                });
+            } else if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    getLocation(position);
+                });
+            } else {
+                showErrorMessage("위치 정보가 없습니다.");
             }
+        });
+
+        function getLocation(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            $("#lat").val(latitude);
+            $("#lnt").val(longitude);
+
         }
-    }
 
-    function updateWifiInfoTable(responseData) { // ㅅㅈ
-        // 테이블을 감싸는 <div> 요소 가져오기
-        alert("dlaslkdaslkd")
-        const wifiInfoTableDiv = document.getElementById('wifiInfoTable');
-        // <div> 요소 내부에 결과를 삽입
-        wifiInfoTableDiv.innerHTML = responseData;
-    }
-
-    // TODO - WifiInfoController 에서 Post 방식으로 호출 해보는 중
-    //
-    // $("#nearWifiInfo").bind("click", function () {
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "",
-    //         success: function (data) {
-    //             $("#wifi_tag").val(data);
-    //         },
-    //         error: function () {
-    //             alert('통신실패!!');
-    //         },
-    //     });
-    // });
+        function showErrorMessage(message) {
+            $("#error-message").text(message);
+            $("#error-container").show();
+        }
+    });
 </script>
+
 <style>
     #input {
         margin-top: 10px;

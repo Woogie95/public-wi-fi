@@ -1,7 +1,5 @@
 package com.example.publicwifi.controller;
 
-import com.example.publicwifi.domain.WifiInfo;
-import com.example.publicwifi.repository.WifiInfoRepository;
 import com.example.publicwifi.service.WifiInfoService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,10 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "load_wifi", urlPatterns = "/load_wifi")
 public class WifiInfoController extends HttpServlet {
+
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         WifiInfoService wifiInfoService = new WifiInfoService();
@@ -27,24 +25,24 @@ public class WifiInfoController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
-
-        double lat = Double.parseDouble(request.getParameter("lat"));
-        double lnt = Double.parseDouble(request.getParameter("lnt"));
-        System.out.println("와이파이컨트롤러 : " + lat + " " + lnt);
-
-        WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
-        List<WifiInfo> wifiInfoList = wifiInfoRepository.getAllWifiInfo(lat, lnt);
-
-        for (WifiInfo wifiInfo : wifiInfoList) {
-            System.out.println("거리 : " + wifiInfo.getDistance());
-            System.out.println("이름 : " + wifiInfo.getMainNm());
-        }
-
-        request.setAttribute("wifiInfoList", wifiInfoList);
-        request.getRequestDispatcher("/WEB-INF/views/home.jsp")
-                .forward(request, response);
+//        request.setCharacterEncoding("UTF-8");
+//        response.setContentType("text/html; charset=UTF-8");
+//
+//        double lat = Double.parseDouble(request.getParameter("lat"));
+//        double lnt = Double.parseDouble(request.getParameter("lnt"));
+//        System.out.println("와이파이컨트롤러 : " + lat + " " + lnt);
+//
+//        WifiInfoRepository wifiInfoRepository = new WifiInfoRepository();
+//        List<WifiInfo> wifiInfoList = wifiInfoRepository.getAllWifiInfo(lat, lnt);
+//
+//        for (WifiInfo wifiInfo : wifiInfoList) {
+//            System.out.println("거리 : " + wifiInfo.getDistance());
+//            System.out.println("이름 : " + wifiInfo.getMainNm());
+//        }
+//
+//        request.setAttribute("wifiInfoList", wifiInfoList);
+//        request.getRequestDispatcher("/WEB-INF/views/home.jsp")
+//                .forward(request, response);
     }
 
 }

@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bookmark {
+public class BookmarkGroup {
 
     private Long id;
     private String bookmarkName;
-    private String wifiName;
+    private Integer sequence;
     private LocalDateTime registerDate;
+    private LocalDateTime updateDate;
 
 }
