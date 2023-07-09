@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "deleteHistory", urlPatterns = "/delete_history")
+@WebServlet(name = "history_delete", urlPatterns = "/history_delete")
 public class HistoryDeleteController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         HistoryService historyService = new HistoryService();

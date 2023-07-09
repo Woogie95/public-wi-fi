@@ -15,7 +15,8 @@ public class BookmarkRepository {
 
     // 등록
     public void saveBookmark(String bookmarkName, String mainNm) {
-
+        DBManager.JdbcConnector();
+        DBManager.connect();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String query = "INSERT INTO bookmark(bookmark_name, main_nm, register_date) VALUES (?, ?, ?)";
@@ -46,6 +47,8 @@ public class BookmarkRepository {
 
     // 전체 조회
     public List<Bookmark> getAllBookmarks() {
+        DBManager.JdbcConnector();
+        DBManager.connect();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -83,6 +86,34 @@ public class BookmarkRepository {
             DBManager.disconnect();
         }
         return bookmarks;
+    }
+
+    public void deleteBookmark(Long bookmarkId) {
+        DBManager.JdbcConnector();
+        DBManager.connect();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String query = "DELETE from bookmark WHERE id =?";
+        try {
+            connection = DBManager.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, bookmarkId);
+            preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            DBManager.disconnect();
+        }
     }
 
 }

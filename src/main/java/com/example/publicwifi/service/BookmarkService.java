@@ -16,4 +16,10 @@ public class BookmarkService {
         BookmarkRepository bookmarkRepository = new BookmarkRepository();
         return bookmarkRepository.getAllBookmarks();
     }
+
+    public void deleteBookmark(Long bookmarkId) {
+        BookmarkRepository bookmarkRepository = new BookmarkRepository();
+        bookmarkRepository.deleteBookmark(bookmarkId);
+    }
+
 }

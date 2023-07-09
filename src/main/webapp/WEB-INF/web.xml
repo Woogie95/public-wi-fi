@@ -58,6 +58,50 @@
         <url-pattern>/bookmark</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>bookmark_group_add</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.BookmarkGroupAddController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bookmark_group_add</servlet-name>
+        <url-pattern>/bookmark_group_add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bookmark_delete</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.BookmarkDeleteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bookmark_delete</servlet-name>
+        <url-pattern>/bookmark_delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bookmark_group_update</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.BookmarkGroupUpdateController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bookmark_group_update</servlet-name>
+        <url-pattern>/bookmark_group_update</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bookmark_group_delete</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.BookmarkGroupDeleteController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bookmark_group_delete</servlet-name>
+        <url-pattern>/bookmark_group_delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>detail</servlet-name>
+        <servlet-class>com.example.publicwifi.controller.WifiDetailController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>detail</servlet-name>
+        <url-pattern>/detail</url-pattern>
+    </servlet-mapping>
 
 </web-app>
 

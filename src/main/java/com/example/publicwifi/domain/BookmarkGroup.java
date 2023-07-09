@@ -15,7 +15,7 @@ public class BookmarkGroup {
 
     private Long id;
     private String bookmarkName;
-    private Integer sequence;
+    private Long sequence;
     private LocalDateTime registerDate;
     private LocalDateTime updateDate;
 

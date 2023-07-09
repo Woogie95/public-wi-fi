@@ -34,87 +34,106 @@
     </tr>
     <tr>
         <th>관리번호</th>
-        <td>${wifiInfo.getMgrNo()}</td>
+        <td>${wifiInfoDetail.getMgrNo()}</td>
     </tr>
     <tr>
         <th>자치구</th>
-        <td>${wifiInfo.getWrdofc()}</td>
+        <td>${wifiInfoDetail.getWrdofc()}</td>
     </tr>
     <tr>
         <th>와이파이명</th>
-        <td>${wifiInfo.getMainNm()}</td>
+        <td>${wifiInfoDetail.getMainNm()}</td>
     </tr>
     <tr>
         <th>도로명주소</th>
-        <td>${wifiInfo.getAddress1()}</td>
+        <td>${wifiInfoDetail.getAddress1()}</td>
     </tr>
     <tr>
         <th>상세주소</th>
-        <td>${wifiInfo.getAddress2()}</td>
+        <td>${wifiInfoDetail.getAddress2()}</td>
     </tr>
     <tr>
         <th>설치위치(층)</th>
-        <td>${wifiInfo.getInstlFloor()}</td>
+        <td>${wifiInfoDetail.getInstlFloor()}</td>
     </tr>
     <tr>
         <th>설치유형</th>
-        <td>${wifiInfo.getInstlTy()}</td>
+        <td>${wifiInfoDetail.getInstlTy()}</td>
     </tr>
     <tr>
         <th>설치기관</th>
-        <td>${wifiInfo.getInstlMby()}</td>
+        <td>${wifiInfoDetail.getInstlMby()}</td>
     </tr>
     <tr>
         <th>서비스구분</th>
-        <td>${wifiInfo.getSvcse()}</td>
+        <td>${wifiInfoDetail.getSvcSe()}</td>
     </tr>
     <tr>
         <th>망종류</th>
-        <td>${wifiInfo.getCmcwr()}</td>
+        <td>${wifiInfoDetail.getCmcwr()}</td>
     </tr>
     <tr>
         <th>설치년도</th>
-        <td>${wifiInfo.getCnstcYear()}</td>
+        <td>${wifiInfoDetail.getCnstcYear()}</td>
     </tr>
     <tr>
         <th>실내외구분</th>
-        <td>${wifiInfo.getInoutDoor()}</td>
+        <td>${wifiInfoDetail.getInoutDoor()}</td>
     </tr>
     <tr>
         <th>WIFI접속환경</th>
-        <td>${wifiInfo.getRemars3()}</td>
+        <td>${wifiInfoDetail.getRemars3()}</td>
     </tr>
     <tr>
         <th>X좌표</th>
-        <td>${wifiInfo.getLat()}</td>
+        <td>${wifiInfoDetail.getLat()}</td>
     </tr>
     <tr>
         <th>Y좌표</th>
-        <td>${wifiInfo.getLnt()}</td>
+        <td>${wifiInfoDetail.getLnt()}</td>
     </tr>
     <tr>
         <th>작업일자</th>
-        <td>${wifiInfo.getWorkDttm()}</td>
+        <td>${wifiInfoDetail.getWorkDttm()}</td>
     </tr>
 </table>
 
 </body>
 <style>
 
-    th{
-        background-color: #00ff00;
-        color:black;
-        width : 30%;
-        font-size: 15px;
+    th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #04AA6D;
+        color: white;
+        width: 300px;
     }
-    td{
-        width: 70%;
-        text-align:left;
-        font-size: 15px;
+
+    td {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        width: 80%;
+        text-align: left;
+        font-size: 20px;
     }
-    tr:hover{
+
+    tr:hover {
         background-color: lightblue;
-        cursor : pointer;
+        cursor: pointer;
+    }
+
+    td, th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
     }
 
 </style>

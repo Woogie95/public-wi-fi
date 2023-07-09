@@ -21,13 +21,3 @@ public class MainController extends HttpServlet {
     }
 
 }
-
-
-        /*
-        내가 진행 하던
-        request.setAttribute("latitude", lat);
-        request.setAttribute("longitude", lnt);
-
-        request.getRequestDispatcher("/WEB-INF/views/home.jsp")
-                .forward(request, response);
-         */

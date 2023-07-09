@@ -51,7 +51,9 @@
                         <td>${wifiInfo.getMgrNo()}</td>
                         <td>${wifiInfo.getWrdofc()}</td>
                         <td>
-                            <a href="detail_page.do?X_SWIFI_MGR_NO=${wifiDetail.getX_SWIFI_MGR_NO() }&X_SWIFI_DIST=${ wifiDetail.getX_SWIFI_DIST() }">${ wifiDetail.getX_SWIFI_MAIN_NM() }</a>
+                            <a href="detail?mgrNo=${wifiInfo.getMgrNo()}&distance=${wifiInfo.getDistance()}">
+                                    ${wifiInfo.getMainNm()}
+                            </a>
                         </td>
                         <td>${wifiInfo.getAddress1()}</td>
                         <td>${wifiInfo.getAddress2()}</td>

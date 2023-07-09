@@ -10,7 +10,7 @@
 <h1>위치 히스토리 목록</h1>
 
 <%@ include file="./category.jsp" %>
-
+<%--지금 북마크 그룹 이름 추가 하는중 --%>
 <div>
     <a href="bookmark_group_add.jsp"><input id="btn-bookmark" type="button" value="북마크 그룹 이름 추가"/></a>
 </div>

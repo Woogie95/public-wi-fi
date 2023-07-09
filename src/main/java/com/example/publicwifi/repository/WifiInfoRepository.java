@@ -115,6 +115,8 @@ public class WifiInfoRepository {
     // 상세 조회
     public WifiInfo getWifiInfoDetail(String mgrNo) {
         String query = "SELECT * FROM wifi_info WHERE x_wifi_mgr_no = ?";
+        DBManager.JdbcConnector();
+        DBManager.connect();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
