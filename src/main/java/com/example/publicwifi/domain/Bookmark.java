@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,7 +13,7 @@ public class Bookmark {
 
     private Long id;
     private String bookmarkName;
-    private String wifiName;
-    private LocalDateTime registerDate;
+    private String mainNm;
+    private String registerDate;
 
 }
