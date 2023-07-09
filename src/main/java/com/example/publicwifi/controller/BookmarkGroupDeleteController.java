@@ -16,9 +16,9 @@ public class BookmarkGroupDeleteController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         BookmarkGroupService bookmarkGroupService = new BookmarkGroupService();
-        Long bookmarkId = Long.valueOf(request.getParameter("bookmarkId"));
+        String bookmarkGroupId = request.getParameter("bookmarkGroupId");
 
-        BookmarkGroup bookmarkGroup = bookmarkGroupService.getBookmarkGroupById(bookmarkId);
+        BookmarkGroup bookmarkGroup = bookmarkGroupService.getBookmarkGroupById(Long.valueOf(bookmarkGroupId));
 
         request.setAttribute("bookmarkGroup", bookmarkGroup);
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group_delete.jsp").forward(request, response);
@@ -27,7 +27,7 @@ public class BookmarkGroupDeleteController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookmarkGroupService bookmarkGroupService = new BookmarkGroupService();
-        Long bookmarkId = Long.valueOf(request.getParameter("bookmarkId"));
+        Long bookmarkId = Long.valueOf(request.getParameter("bookmarkGroupId"));
 
         bookmarkGroupService.deleteBookmark(bookmarkId);
         List<BookmarkGroup> bookmarkGroups = bookmarkGroupService.getAllBookmarkGroups();

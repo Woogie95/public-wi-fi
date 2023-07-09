@@ -7,13 +7,11 @@ import java.util.List;
 
 public class BookmarkGroupService {
 
-    //BookmarkAdd
     public void save(String bookmarkGroupName, Long bookmarkGroupSequence) {
         BookmarkGroupRepository bookmarkGroupRepository = new BookmarkGroupRepository();
         bookmarkGroupRepository.save(bookmarkGroupName, bookmarkGroupSequence);
     }
 
-    //    BookmarkDel Get
     public BookmarkGroup getBookmarkGroupById(Long bookmarkGroupId) {
         BookmarkGroupRepository bookmarkGroupRepository = new BookmarkGroupRepository();
         return bookmarkGroupRepository.getBookmarkGroupById(bookmarkGroupId);

@@ -26,8 +26,8 @@ public class BookmarkGroupRepository {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, bookmarkName);
             preparedStatement.setLong(2, sequence);
-            preparedStatement.setString(3, String.valueOf(LocalDateTime.now()));
-            preparedStatement.executeQuery();
+            preparedStatement.setObject(3, LocalDateTime.now());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -64,8 +64,8 @@ public class BookmarkGroupRepository {
                 bookmarkGroup.setId(resultSet.getLong(1));
                 bookmarkGroup.setBookmarkName(resultSet.getString(2));
                 bookmarkGroup.setSequence(resultSet.getLong(3));
-                bookmarkGroup.setRegisterDate(LocalDateTime.parse(resultSet.getString(4)));
-                bookmarkGroup.setUpdateDate(LocalDateTime.parse(resultSet.getString(5)));
+                bookmarkGroup.setRegisterDate(resultSet.getString(4));
+                bookmarkGroup.setUpdateDate(resultSet.getString(5));
                 bookmarkGroups.add(bookmarkGroup);
             }
         } catch (SQLException e) {
@@ -141,7 +141,7 @@ public class BookmarkGroupRepository {
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, bookmarkGroupName);
             preparedStatement.setLong(2, sequence);
-            preparedStatement.setString(3, String.valueOf(LocalDateTime.now()));
+            preparedStatement.setString(3, LocalDateTime.now().toString());
             preparedStatement.setLong(4, bookmarkGroupId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

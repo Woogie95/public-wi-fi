@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>와이파이 정보 구하기</title>
@@ -8,46 +7,42 @@
 <body>
 <h1>위치 히스토리 목록</h1>
 
-<%@ include file="./category.jsp" %>
+<%@ include file="WEB-INF/views/category.jsp" %>
 
-<form action="bookmark_group_update" method="post" id="update_form">
-    <input type="hidden" name="bookmarkGroupId" value="${bookmarkGroup.getId()}">
+<form action="bookmark_group_add" method="post">
     <table>
         <tr>
             <th>북마크 이름</th>
             <td>
                 <label>
-                    <input type="text" name="bookmarkGroupName" value="${bookmarkGroup.getBookmarkName()}"/>
+                    <input type="text" name="bookmarkGroupName"/>
                 </label>
             </td>
         </tr>
         <tr>
-            <th>북마크 순서</th>
+            <th>순서</th>
             <td>
                 <label>
-                    <input type="text" name="bookmarkGroupSequence" value="${bookmarkGroup.getSequence()}"/>
+                    <input type="text" name="bookmarkGroupSequence"/>
                 </label>
             </td>
         </tr>
         <tr>
             <td colspan="2" style="text-align: center">
-                <a href="bookmark_group">돌아가기</a>&nbsp;|
-                <input type="submit" value="수정" onclick="showAlert()"/>
+                <input type="submit" value="추가" onclick="showAlert()"/>
             </td>
         </tr>
     </table>
 </form>
 </body>
+
 <script>
     function showAlert() {
-        alert('북마크 그룹 정보를 수정하였습니다.');
+        alert('북마크 그룹 정보를 추가하였습니다.');
     }
 </script>
 
 <style>
-    #update_form {
-        margin-top: 10px;
-    }
 
     th {
         padding-top: 12px;
@@ -63,7 +58,7 @@
         padding-bottom: 12px;
         width: 80%;
         text-align: left;
-        font-size: 15px;
+        font-size: 20px;
     }
 
     tr:hover {

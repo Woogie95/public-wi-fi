@@ -16,11 +16,11 @@ public class BookmarkGroupUpdateController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookmarkGroupService bookmarkGroupService = new BookmarkGroupService();
-
         Long bookmarkGroupId = Long.valueOf(request.getParameter("bookmarkGroupId"));
 
         BookmarkGroup bookmarkGroup = bookmarkGroupService.getBookmarkGroupById(bookmarkGroupId);
         request.setAttribute("bookmarkGroup", bookmarkGroup);
+
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group_update.jsp").forward(request, response);
 
     }
@@ -28,16 +28,17 @@ public class BookmarkGroupUpdateController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         BookmarkGroupService bookmarkGroupService = new BookmarkGroupService();
 
-        Long bookmarkGroupId = Long.valueOf(request.getParameter("id"));
-        String bookmarkGroupName = request.getParameter("bookmarkGroupName");
-        Long sequence = Long.valueOf(request.getParameter("sequence"));
+        Long bookmarkGroupId = Long.valueOf(request.getParameter("bookmarkGroupId"));
 
-        bookmarkGroupService.updateBookmark(bookmarkGroupId, bookmarkGroupName, sequence);
+        String bookmarkGroupName = request.getParameter("bookmarkGroupName");
+        Long bookmarkGroupSequence = Long.valueOf(request.getParameter("bookmarkGroupSequence"));
+
+        bookmarkGroupService.updateBookmark(bookmarkGroupId, bookmarkGroupName, bookmarkGroupSequence);
         List<BookmarkGroup> bookmarkGroups = bookmarkGroupService.getAllBookmarkGroups();
 
         // 데이터를 request 객체에 저장
         request.setAttribute("bookmarkGroups", bookmarkGroups);
-        request.getRequestDispatcher("/WEB-INF/views/bookmark.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/bookmark_group.jsp").forward(request, response);
     }
 
 }
