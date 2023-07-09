@@ -12,7 +12,6 @@ import static com.example.publicwifi.util.DBManager.getConnection;
 
 public class HistoryRepository {
 
-    // 등록
     public void saveHistory(History history) {
         DBManager.JdbcConnector();
         String query = "INSERT INTO history (lat, lnt, register_date) VALUES (?, ?, ?)";

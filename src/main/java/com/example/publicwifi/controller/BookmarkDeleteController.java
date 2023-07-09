@@ -32,8 +32,6 @@ public class BookmarkDeleteController extends HttpServlet {
         List<Bookmark> bookmarkGroups = bookmarkService.getAllBookmarks();
         request.setAttribute("bookmark", bookmarkGroups);
         request.getRequestDispatcher("/WEB-INF/views/bookmark.jsp").forward(request, response);
-
     }
-
 
 }

@@ -12,4 +12,5 @@ public class HistoryDeleteController extends HttpServlet {
         HistoryService historyService = new HistoryService();
         historyService.deleteHistory(request.getParameter("historyId"));
     }
+
 }

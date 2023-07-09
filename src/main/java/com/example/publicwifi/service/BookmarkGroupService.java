@@ -31,4 +31,5 @@ public class BookmarkGroupService {
         BookmarkGroupRepository bookmarkGroupRepository = new BookmarkGroupRepository();
         bookmarkGroupRepository.deleteBookmarkGroup(id);
     }
+
 }

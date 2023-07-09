@@ -13,7 +13,6 @@ import java.util.List;
 
 public class BookmarkRepository {
 
-    // 등록
     public void saveBookmark(String bookmarkName, String mainNm) {
         DBManager.JdbcConnector();
         DBManager.connect();
@@ -44,7 +43,6 @@ public class BookmarkRepository {
         }
     }
 
-    // 전체 조회
     public List<Bookmark> getAllBookmarks() {
         DBManager.JdbcConnector();
         DBManager.connect();

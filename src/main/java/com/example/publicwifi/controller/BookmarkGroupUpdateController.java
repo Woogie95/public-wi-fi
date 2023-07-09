@@ -22,7 +22,6 @@ public class BookmarkGroupUpdateController extends HttpServlet {
         request.setAttribute("bookmarkGroup", bookmarkGroup);
 
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group_update.jsp").forward(request, response);
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,7 +35,6 @@ public class BookmarkGroupUpdateController extends HttpServlet {
         bookmarkGroupService.updateBookmark(bookmarkGroupId, bookmarkGroupName, bookmarkGroupSequence);
         List<BookmarkGroup> bookmarkGroups = bookmarkGroupService.getAllBookmarkGroups();
 
-        // 데이터를 request 객체에 저장
         request.setAttribute("bookmarkGroups", bookmarkGroups);
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group.jsp").forward(request, response);
     }

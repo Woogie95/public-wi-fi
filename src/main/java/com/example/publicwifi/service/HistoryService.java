@@ -22,7 +22,7 @@ public class HistoryService {
         return historyRepository.getAllHistories();
     }
 
-    public String deleteHistory(String id) {
+    public void deleteHistory(String id) {
         HistoryRepository historyRepository = new HistoryRepository();
         if (id != null && !id.isEmpty()) {
             try {
@@ -31,7 +31,6 @@ public class HistoryService {
                 e.printStackTrace();
             }
         }
-        return id;
     }
 
 }

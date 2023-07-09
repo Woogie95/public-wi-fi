@@ -19,16 +19,13 @@ public class HomeController extends HttpServlet {
         String lat = request.getParameter("lat");
         String lnt = request.getParameter("lnt");
 
-        // 히스토리 등록 해주기
         HistoryService historyService = new HistoryService();
         historyService.save(lat, lnt);
 
-        // 와이파이 정보 20개 가져오기
         WifiInfoService wifiInfoService = new WifiInfoService();
         List<WifiInfo> wifiInfoList = wifiInfoService.getNearWifiInfo(lat, lnt);
 
         request.setAttribute("wifiInfoList", wifiInfoList);
-        // JSP 파일로 포워딩
         request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
     }
 

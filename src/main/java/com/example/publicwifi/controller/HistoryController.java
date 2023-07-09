@@ -19,7 +19,7 @@ public class HistoryController extends HttpServlet {
         List<History> histories = historyService.getAllHistories();
 
         request.setAttribute("history", histories);
-        request.getRequestDispatcher("/WEB-INF/views/history.jsp")
-                .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/history.jsp").forward(request, response);
     }
+
 }

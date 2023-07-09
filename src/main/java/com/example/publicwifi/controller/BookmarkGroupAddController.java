@@ -26,4 +26,5 @@ public class BookmarkGroupAddController extends HttpServlet {
         request.setAttribute("bookmarkGroups", bookmarkGroups);
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group.jsp").forward(request, response);
     }
+
 }

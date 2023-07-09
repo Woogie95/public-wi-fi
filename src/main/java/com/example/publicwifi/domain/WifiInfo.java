@@ -25,8 +25,8 @@ public class WifiInfo {
     private String cnstcYear;
     private String inoutDoor;
     private String remars3;
-    private String lat; // 위도
-    private String lnt; // 경도
+    private String lat;
+    private String lnt;
     private String workDttm;
 
 }

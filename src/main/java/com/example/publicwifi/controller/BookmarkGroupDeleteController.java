@@ -22,7 +22,6 @@ public class BookmarkGroupDeleteController extends HttpServlet {
 
         request.setAttribute("bookmarkGroup", bookmarkGroup);
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group_delete.jsp").forward(request, response);
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,8 +33,6 @@ public class BookmarkGroupDeleteController extends HttpServlet {
 
         request.setAttribute("bookmarkGroups", bookmarkGroups);
         request.getRequestDispatcher("/WEB-INF/views/bookmark_group.jsp").forward(request, response);
-
     }
 
 }
-

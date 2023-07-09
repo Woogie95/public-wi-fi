@@ -13,7 +13,6 @@ import java.util.List;
 
 public class BookmarkGroupRepository {
 
-    // 등록
     public void save(String bookmarkName, Long sequence) {
         DBManager.JdbcConnector();
         DBManager.connect();
@@ -45,7 +44,6 @@ public class BookmarkGroupRepository {
         }
     }
 
-    // 전체 조회
     public List<BookmarkGroup> getAllBookmarkGroups() {
         DBManager.JdbcConnector();
         DBManager.connect();
