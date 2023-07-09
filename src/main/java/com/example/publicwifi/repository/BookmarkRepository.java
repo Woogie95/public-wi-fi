@@ -19,13 +19,13 @@ public class BookmarkRepository {
         DBManager.connect();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        String query = "INSERT INTO bookmark(bookmark_name, main_nm, register_date) VALUES (?, ?, ?)";
+        String query = "INSERT INTO bookmark(bookmark_name, mainNm, register_date) VALUES (?, ?, ?)";
         try {
             connection = DBManager.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, bookmarkName);
             preparedStatement.setString(2, mainNm);
-            preparedStatement.setString(3, String.valueOf(LocalDateTime.now()));
+            preparedStatement.setObject(3, LocalDateTime.now());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +43,6 @@ public class BookmarkRepository {
             DBManager.disconnect();
         }
     }
-
 
     // 전체 조회
     public List<Bookmark> getAllBookmarks() {
@@ -63,8 +62,8 @@ public class BookmarkRepository {
                 Bookmark bookmark = new Bookmark();
                 bookmark.setId(resultSet.getLong(1));
                 bookmark.setBookmarkName(resultSet.getString(2));
-                bookmark.setWifiName(resultSet.getString(3));
-                bookmark.setRegisterDate(LocalDateTime.parse(resultSet.getString(4)));
+                bookmark.setMainNm(resultSet.getString(3));
+                bookmark.setRegisterDate(resultSet.getString(4));
                 bookmarks.add(bookmark);
             }
         } catch (SQLException e) {
@@ -88,6 +87,47 @@ public class BookmarkRepository {
         return bookmarks;
     }
 
+    public Bookmark getBookmarkById(Long bookmarkId) {
+        DBManager.JdbcConnector();
+        DBManager.connect();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Bookmark bookmark = new Bookmark();
+
+        String query = "SELECT bookmark_name, mainNm, register_date FROM bookmark WHERE id = ?";
+        try {
+            connection = DBManager.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, bookmarkId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                bookmark.setId(bookmarkId);
+                bookmark.setBookmarkName(resultSet.getString(1));
+                bookmark.setMainNm(resultSet.getString(2));
+                bookmark.setRegisterDate(resultSet.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            DBManager.disconnect();
+        }
+        return bookmark;
+    }
+
     public void deleteBookmark(Long bookmarkId) {
         DBManager.JdbcConnector();
         DBManager.connect();
@@ -98,7 +138,7 @@ public class BookmarkRepository {
             connection = DBManager.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setLong(1, bookmarkId);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

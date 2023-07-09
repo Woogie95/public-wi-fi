@@ -13,15 +13,15 @@
 
 <form action="bookmark" method="post">
     <label>
-        <select name="bookmark_select">
-            <option value="bookmark_group_select">북마크 그룹 이름 선택</option>
-            <c:forEach var="bookmarkGroupList" items="${bookmarkGroupList}">
-                <option value="${bookmarkGroupList.getBookmarkName()}">${bookmarkGroupList.getBookmarkName()}</option>
+        <select name="bookmarkName">
+            <option>북마크 그룹 이름 선택</option>
+            <c:forEach var="bookmarkGroups" items="${bookmarkGroups}">
+                <option value="${bookmarkGroups.getBookmarkName()}">${bookmarkGroups.getBookmarkName()}</option>
             </c:forEach>
         </select>
     </label>
-    <input type="hidden" name="mainNm" value="${wifiInfo.getMainNm()}">
-    <input type="submit" value="즐겨찾기 추가하기"/>
+    <input type="hidden" name="mainNm" value="${wifiInfoDetail.getMainNm()}">
+    <input type="submit" value="즐겨찾기 추가하기" onclick="showAlert()"/>
 </form>
 <%
     String distance = request.getParameter("distance");
@@ -99,6 +99,11 @@
 </table>
 
 </body>
+<script>
+    function showAlert() {
+        alert('북마크 정보를 추가하였습니다.');
+    }
+</script>
 <style>
 
     th {

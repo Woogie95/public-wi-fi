@@ -22,4 +22,9 @@ public class BookmarkService {
         bookmarkRepository.deleteBookmark(bookmarkId);
     }
 
+    public Bookmark getBookmarkById(Long bookmarkId) {
+        BookmarkRepository bookmarkRepository = new BookmarkRepository();
+        return bookmarkRepository.getBookmarkById(bookmarkId);
+    }
+
 }

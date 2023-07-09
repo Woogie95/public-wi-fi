@@ -31,12 +31,10 @@ public class WifiDetailController extends HttpServlet {
         WifiInfo wifiInfoDetail = wifiInfoService.getWifiInfoDetail(mgrNo);
         request.setAttribute("wifiInfoDetail", wifiInfoDetail);
 
-        //북마크 리스트
         BookmarkGroupRepository bookmarkGroupRepository = new BookmarkGroupRepository();
         List<BookmarkGroup> bookmarkGroups = bookmarkGroupRepository.getAllBookmarkGroups();
 
         request.setAttribute("bookmarkGroups", bookmarkGroups);
-
         request.getRequestDispatcher("/WEB-INF/views/detail.jsp").forward(request, response);
     }
 
